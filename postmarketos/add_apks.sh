@@ -1,0 +1,23 @@
+# files added to enable python, pillow, ffmpeg and v4l
+apk add  build-base
+apk add  ffmpeg
+apk add  freetype-dev
+apk add  fribidi-dev
+apk add  gcc
+apk add  harfbuzz-dev
+apk add  jpeg-dev
+apk add  lcms2-dev
+apk add  libwebp-dev
+apk add  libxcb-dev
+apk add  media-ctl
+apk add  openjpeg-dev
+apk add  py-pillow
+apk add  py3-pillow
+apk add  python2-dev
+apk add  python3-dev
+apk add  python3-tkinter
+apk add  tcl-dev
+apk add  tiff-dev
+apk add  tk-dev
+apk add  v4l-utils
+apk add  zlib-dev
