@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# quick python tkinter , pillow wrapper to take pictures on pinephone
+
+
 # import tkinter as tk
 from tkinter import *
 from PIL import ImageTk, Image
