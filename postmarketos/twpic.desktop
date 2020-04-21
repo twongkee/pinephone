@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Exec=/home/wongkt2/dev/grid_w_app.py
+Icon=/usr/share/icons/hicolor/scalable/apps/twpic.svg
+Type=Application
+Terminal=false
+MultipleArgs=false
+Name=twPypic
+GenericName=twpic test
+StartupNotify=false
+Categories=GNOME;AudioVideo;Video;Recorder;
+Keywords=photo
