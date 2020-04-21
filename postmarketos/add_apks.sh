@@ -13,7 +13,6 @@ apk add  media-ctl
 apk add  openjpeg-dev
 apk add  py-pillow
 apk add  py3-pillow
-apk add  python2-dev
 apk add  python3-dev
 apk add  python3-tkinter
 apk add  tcl-dev
