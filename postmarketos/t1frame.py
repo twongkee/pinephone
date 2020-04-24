@@ -79,4 +79,3 @@ for _ in range(1):  # capture 100 frames
 fcntl.ioctl(vd, VIDIOC_STREAMOFF, buf_type)
 vid.close()
 vd.close()
-

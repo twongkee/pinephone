@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-# quick python tkinter , pillow wrapper to take pictures on pinephone
-
-
 # import tkinter as tk
 from tkinter import *
 from PIL import ImageTk, Image
 import subprocess
+
+button_width = 5
 
 
 class Application(Frame):
@@ -17,11 +16,14 @@ class Application(Frame):
         self.grid(row=2, column=3)
 
     def create_widgets(self):
-        self.hi_there = Button(self, width=10, height=2)
+        self.preview = Button(
+            self, width=button_width, height=2, text="preview", command=self.runpreview
+        )
+        self.hi_there = Button(self, width=button_width, height=2)
         self.hi_there["text"] = "(click me)"
         self.hi_there["command"] = self.say_hi
 
-        self.middle = Button(self, width=10, height=3)
+        self.middle = Button(self, width=button_width, height=3)
         self.middle["text"] = " (O) "
         self.middle["command"] = self.middleclick
 
@@ -29,16 +31,26 @@ class Application(Frame):
         self.pic = Label(image=self.img)
 
         self.quit = Button(
-            self, text="QUIT", fg="red", width=10, height=2, command=self.master.destroy
+            self,
+            text="QUIT",
+            fg="red",
+            width=button_width,
+            height=2,
+            command=self.master.destroy,
         )
 
         self.pic.grid(row=1, column=1, columnspan=3)
+        self.preview.grid(row=2, column=0)
         self.hi_there.grid(row=2, column=1)
         self.middle.grid(row=2, column=2)
         self.quit.grid(row=2, column=3)
 
     def say_hi(self):
-        print("hi there, everyone!")
+        subprocess.call(["bash /home/wongkt2/bin/ph640"], shell=True)
+        self.img = ImageTk.PhotoImage(Image.open("/home/wongkt2/dev/latest.jpg"))
+        self.pic = Label(image=self.img)
+        self.pic.grid(row=1, column=1, columnspan=3)
+        print("click me")
 
     def middleclick(self):
         subprocess.call(["bash /home/wongkt2/dev/smallpic.sh"], shell=True)
@@ -46,6 +58,11 @@ class Application(Frame):
         self.pic = Label(image=self.img)
         self.pic.grid(row=1, column=1, columnspan=3)
         print("click middle")
+
+    def runpreview(self):
+        subprocess.call(
+            ["/home/wongkt2/py3/bin/python /home/wongkt2/dev/preview.py"], shell=True
+        )
 
 
 root = Tk()
