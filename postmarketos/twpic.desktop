@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Exec=/home/wongkt2/dev/grid_w_app.py
+Exec=/home/wongkt2/dev/twpic_ui.py
 Icon=/usr/share/icons/hicolor/scalable/apps/twpic.svg
 Type=Application
 Terminal=false
