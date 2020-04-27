@@ -1,5 +1,11 @@
 # import pygame module in this program 
 import pygame 
+import sys
+
+if len(sys.argv) > 1:
+    imagefile = sys.argv[1]
+else:
+    imagefile='second.jpg'
 
 # activate the pygame library . 
 # initiate pygame and give permission 
@@ -26,7 +32,7 @@ display_surface = pygame.display.set_mode((WIDTH, HEIGHT ))
 pygame.display.set_caption('Image') 
 
 # create a surface object, image is drawn on it. 
-image = pygame.image.load('second.jpg') 
+image = pygame.image.load(imagefile) 
 angle = 0
 angle_raw = 0
 ZOOM = 300
