@@ -32,8 +32,10 @@ for pathroot, d_names, f_names in os.walk(path):
             print(f"{pathroot} {f}")
             pics += [pathroot + "/" + f]
 
-
+# todo, currently loading all thumbnails
+# may be too many, so rethink just loading a few?
 imgs = []
+blankimg = ImageTk.PhotoImage(Image.open("/home/wongkt2/dev/blank.jpg"))
 for p in pics:
     print(p)
     imgs.append(ImageTk.PhotoImage(Image.open(p)))
@@ -41,12 +43,13 @@ for p in pics:
 # todo fix end cases
 def process_turn(index):
     global firstpic
+    global blankimg
     turnLabel.config()
-    print(f"clicked {index}")
-    picfile = pics[firstpic+index][25:]
+    print(f"clicked {index}, first {firstpic}")
     
-    print(f"image {picfile}")
     if index < 8:
+        picfile = pics[firstpic+index][25:]
+        print(f"image {picfile}")
         print([f"/home/wongkt2/pyg2/bin/python /home/wongkt2/dev/pgimage.py {picfile}"])
         subprocess.call([f"/home/wongkt2/pyg2/bin/python /home/wongkt2/dev/pgimage.py /home/wongkt2/{picfile}"], shell=True)
     if index == 8:
@@ -57,16 +60,25 @@ def process_turn(index):
             if n + firstpic + 8 < len(imgs):
                 btn_list[n]["image"] = imgs[n + firstpic]
                 print(firstpic, n, len(imgs))
+        if firstpic > len(imgs) - 8:
+            print("\n===\nlast page\n\n")
+            for n in range(8):
+                btn_list[n]["image"] = blankimg
+            max = len(imgs) - firstpic
+            for n in range(max):
+                btn_list[n]['image'] = imgs[n + firstpic]
         print(firstpic, index, len(imgs))
     if index == 9:
         print("go prev page")
         if firstpic > 7:
             firstpic -= 8
         for n in range(8):
-            if firstpic - n > 0:
-                btn_list[n]["image"] = imgs[firstpic - n]
+            if firstpic >= 0:
+                btn_list[n]["image"] = imgs[firstpic + n]
                 print(firstpic, n, len(imgs))
         print(firstpic, index, len(imgs))
+
+    print(f"end clicked {index}, first {firstpic}")
 
 prev = "prev"
 prevLabel = Button(root, text=prev, font="Helvetica 12", command=lambda ndex=9:process_turn(ndex))
