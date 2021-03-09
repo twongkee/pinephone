@@ -1,0 +1,5 @@
+#!/bin/bash
+FDATE=$(date +"%Y%m%dT%H%M%S")
+NAME=$1
+echo $NAME
+ffmpeg -f rawvideo -pixel_format yuv420p -s 1280x720 -i $NAME.yuv jpeg/${NAME}_${FDATE}_%03d.jpg
