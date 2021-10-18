@@ -20,3 +20,10 @@ apk add  tiff-dev
 apk add  tk-dev
 apk add  v4l-utils
 apk add  zlib-dev
+# for pygame
+apk add  sdl2_ttf-dev
+apk add  sdl2-dev
+apk add  sdl2_net-dev
+apk add  sdl2_mixer-dev
+apk add  sdl2_image-dev
+apk add  portmidi-dev
