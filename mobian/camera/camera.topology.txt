@@ -1,0 +1,106 @@
+Media controller API version 6.1.9
+
+Media device information
+------------------------
+driver          rkisp1
+model           rkisp1
+serial          
+bus info        platform:rkisp1
+hw revision     0xa
+driver version  6.1.9
+
+Device topology
+- entity 1: rkisp1_isp (4 pads, 5 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev5
+	pad0: Sink
+		[fmt:SRGGB10_1X10/4032x3024 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
+		 crop.bounds:(0,0)/4032x3024
+		 crop:(0,0)/4032x3024]
+		<- "rkisp1_csi":1 [ENABLED]
+	pad1: Sink
+		[fmt:unknown/0x0 field:none]
+		<- "rkisp1_params":0 [ENABLED,IMMUTABLE]
+	pad2: Source
+		[fmt:SRGGB10_1X10/4032x3024 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
+		 crop.bounds:(0,0)/4032x3024
+		 crop:(0,0)/4032x3024]
+		-> "rkisp1_resizer_mainpath":0 [ENABLED]
+		-> "rkisp1_resizer_selfpath":0 []
+	pad3: Source
+		[fmt:unknown/0x0 field:none]
+		-> "rkisp1_stats":0 [ENABLED,IMMUTABLE]
+
+- entity 6: rkisp1_resizer_mainpath (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev6
+	pad0: Sink
+		[fmt:SRGGB10_1X10/4032x3024 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
+		 crop.bounds:(0,0)/4032x3024
+		 crop:(0,0)/4032x3024]
+		<- "rkisp1_isp":2 [ENABLED]
+	pad1: Source
+		[fmt:SRGGB10_1X10/4032x3024 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+		-> "rkisp1_mainpath":0 [ENABLED,IMMUTABLE]
+
+- entity 9: rkisp1_resizer_selfpath (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev7
+	pad0: Sink
+		[fmt:YUYV8_2X8/800x600 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range
+		 crop.bounds:(0,0)/800x600
+		 crop:(0,0)/800x600]
+		<- "rkisp1_isp":2 []
+	pad1: Source
+		[fmt:YUYV8_2X8/800x600 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
+		-> "rkisp1_selfpath":0 [ENABLED,IMMUTABLE]
+
+- entity 12: rkisp1_mainpath (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video5
+	pad0: Sink
+		<- "rkisp1_resizer_mainpath":1 [ENABLED,IMMUTABLE]
+
+- entity 16: rkisp1_selfpath (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video6
+	pad0: Sink
+		<- "rkisp1_resizer_selfpath":1 [ENABLED,IMMUTABLE]
+
+- entity 20: rkisp1_stats (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video7
+	pad0: Sink
+		<- "rkisp1_isp":3 [ENABLED,IMMUTABLE]
+
+- entity 24: rkisp1_params (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video8
+	pad0: Source
+		-> "rkisp1_isp":1 [ENABLED,IMMUTABLE]
+
+- entity 28: rkisp1_csi (2 pads, 2 links)
+             type V4L2 subdev subtype Unknown flags 0
+             device node name /dev/v4l-subdev8
+	pad0: Sink
+		[fmt:SRGGB10_1X10/4032x3024 field:none]
+		<- "imx258 1-001a":0 [ENABLED]
+	pad1: Source
+		[fmt:SRGGB10_1X10/4032x3024 field:none]
+		-> "rkisp1_isp":0 [ENABLED]
+
+- entity 45: imx258 1-001a (1 pad, 1 link)
+             type V4L2 subdev subtype Sensor flags 0
+             device node name /dev/v4l-subdev9
+	pad0: Source
+		[fmt:SRGGB10_1X10/4032x3024 field:none]
+		-> "rkisp1_csi":0 [ENABLED]
+
+- entity 49: dw9714 1-000c (0 pad, 0 link)
+             type V4L2 subdev subtype Lens flags 0
+             device node name /dev/v4l-subdev10
+
+- entity 51: white:flash (0 pad, 0 link)
+             type V4L2 subdev subtype Flash flags 0
+             device node name /dev/v4l-subdev11
+
