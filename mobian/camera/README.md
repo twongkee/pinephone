@@ -13,3 +13,7 @@ need to install
 - jupyterlab==3.6.1
 - python3-pil - Python Imaging Library (Python3)
 - python3-matplotlib - Python based plotting system in a style similar to Matlab (Python 3)
+
+for some sample images, and other comments, 
+
+http://wongkee.ca/2023/02/10/pinephone-pro-camera-smooth-out-the-triangle-dots/
