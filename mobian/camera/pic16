@@ -1,0 +1,57 @@
+#!/bin/bash
+#
+set -e
+set -o pipefail
+#
+media_cmd="media-ctl -d platform:rkisp1"
+v4l2_cmd="v4l2-ctl -z platform:rkisp1 -d rkisp1_mainpath"
+NAME=$(date +"%Y%m%dT%H%M%S")
+
+#reset
+$media_cmd "-r"
+# set links
+$media_cmd "-l" "'imx258 1-001a':0 -> 'rkisp1_csi':0 [1]"
+$media_cmd "-l" "'rkisp1_csi':1 -> 'rkisp1_isp':0 [1]"
+$media_cmd "-l" "'rkisp1_isp':2 -> 'rkisp1_resizer_mainpath':0 [1]"
+$media_cmd "-l" "'rkisp1_isp':2 -> 'rkisp1_resizer_selfpath':0 [0]"
+
+$media_cmd "--set-v4l2" '"imx258 1-001a":0 [fmt:SRGGB10_1X10/4032x3024]' 
+
+$media_cmd "--set-v4l2" '"rkisp1_csi":0 [fmt:SRGGB10_1X10/4032x3024]'
+
+$media_cmd "--set-v4l2" '"rkisp1_isp":0 [fmt:SRGGB10_1X10/4032x3024 crop:(0,0)/4032x3024]'
+$media_cmd "--set-v4l2" '"rkisp1_isp":2 [fmt:SRGGB10_1X10/4032x3024 crop:(0,0)/4032x3024]'
+
+$media_cmd "--set-v4l2" '"rkisp1_resizer_mainpath":0 [fmt:SRGGB10_1X10/4032x3024 crop:(0,0)/4032x3024]'
+$media_cmd "--set-v4l2" '"rkisp1_resizer_mainpath":1 [fmt:SRGGB10_1X10/4032x3024]'
+
+$v4l2_cmd  "-v" "width=4032,height=3024,pixelformat=RG10" # 
+
+### different v4l2 node for camera controls!
+
+v4l2-ctl -z platform:rkisp1 -d "imx258 1-001a" -c exposure=15000
+v4l2-ctl -z platform:rkisp1 -d "imx258 1-001a" -c analogue_gain=100
+v4l2-ctl -z platform:rkisp1 -d "imx258 1-001a" -c digital_gain=1024
+v4l2-ctl -z platform:rkisp1 -d "imx258 1-001a" -c wide_dynamic_range=0
+v4l2-ctl -z platform:rkisp1 -d "imx258 1-001a" -c test_pattern=0
+
+### yet another for focus
+v4l2-ctl -z platform:rkisp1 -d "dw9714 1-000c" -c focus_absolute=512
+
+# mainpath stream to file
+$v4l2_cmd  "--stream-mmap" "--stream-count" "1" "--stream-to=frame.raw"
+
+# convert to jpeg and send to background process
+
+( ffmpeg -y -hide_banner -loglevel error -s:v 4032x3024 -pix_fmt bayer_rggb16be -i frame.raw ~/Pictures/CLI_${NAME}_bayer_rggb16be_%03d.jpg ; \
+	convert ~/Pictures/CLI_${NAME}_bayer_rggb16be_001.jpg \( +clone -channel RGB -equalize \) -average ~/Pictures/CLI_${NAME}_bayer_rggb16be_001_equal.jpg )&
+
+
+# keep copy of raw file (perhaps optional?)
+cp frame.raw ~/Pictures/CLI_${NAME}.raw &
+
+# cleanup with numpy and send to background process
+( /home/mobian/py3/bin/python ~/bin/fixbits2.py ; \
+ffmpeg -y -hide_banner -loglevel error -s:v 4032x3024 -pix_fmt bayer_rggb16be -i numpy.raw ~/Pictures/CLI_${NAME}_numpy.jpg ;\
+convert ~/Pictures/CLI_${NAME}_numpy.jpg \( +clone -channel RGB -equalize \) -average ~/Pictures/CLI_${NAME}_numpy_equal.jpg)&
+
