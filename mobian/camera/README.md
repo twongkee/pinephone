@@ -18,3 +18,10 @@ need to install
 for some sample images, and other comments, 
 
 http://wongkee.ca/2023/02/10/pinephone-pro-camera-smooth-out-the-triangle-dots/
+
+`pic16`
+
+is a script to capture image from main camera.  
+the [camera topology](camera.topology.txt) was dumped after the script was run.
+
+![topology](camera.png)
