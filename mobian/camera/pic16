@@ -51,7 +51,7 @@ $v4l2_cmd  "--stream-mmap" "--stream-count" "1" "--stream-to=frame.raw"
 cp frame.raw ~/Pictures/CLI_${NAME}.raw &
 
 # cleanup with numpy and send to background process
-( /home/mobian/py3/bin/python ~/bin/fixbits2.py ; \
+( /home/mobian/py3/bin/python ~/bin/fixbits.py ; \
 ffmpeg -y -hide_banner -loglevel error -s:v 4032x3024 -pix_fmt bayer_rggb16be -i numpy.raw ~/Pictures/CLI_${NAME}_numpy.jpg ;\
 convert ~/Pictures/CLI_${NAME}_numpy.jpg \( +clone -channel RGB -equalize \) -average ~/Pictures/CLI_${NAME}_numpy_equal.jpg)&
 
