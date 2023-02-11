@@ -6,6 +6,7 @@ need to install
 ## for cli
 
 - v4l-utils - Collection of command line video4linux utilities
+- ffmpeg - Tools for transcoding, streaming and playing of multimedia files
 - imagemagick - image manipulation programs -- binaries
 - python3-numpy - Fast array facility to the Python 3 language
 
