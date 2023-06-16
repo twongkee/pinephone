@@ -89,9 +89,7 @@ def menu():
                     print("up")
                     ypos -= STEP_SIZE
             elif event.type == pygame.MULTIGESTURE:
-                filename = os.path.join(
-                    os.getcwd(), "resources", "Jingle_Win_000.wav"
-                )
+                filename = os.path.join(os.getcwd(), "resources", "Jingle_Win_000.wav")
                 mixer = pygame.mixer
                 mixer.init(11025)
                 effect = mixer.Sound(filename)
@@ -266,7 +264,7 @@ def play_snake():
             ys.append(700)
             applepos = (random.randint(40, 260), random.randint(40, 160))
         if xs[0] < 0 or xs[0] > 300 or ys[0] < 0 or ys[0] > 220:
-            die(s, score)
+            die(screen, score)
         i = len(xs) - 1
         while i >= 1:
             xs[i] = xs[i - 1]
